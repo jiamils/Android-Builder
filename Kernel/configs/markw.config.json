@@ -1,11 +1,11 @@
 [
   {
     "kernelSource": {
-      "name": "Pixel3xl",
-      "repo": "https://github.com/LineageOS/android_kernel_google_msm-4.9",
-      "branch": "lineage-21",
+      "name": "G988U1",
+      "repo": "https://github.com/jiamils/G988U1",
+      "branch": "main",
       "device": "smd845",
-      "defconfig": "sdm845_defconfig"
+      "defconfig": "vendor/z2q_usa_openw_defconfig"
     },
     "toolchains": [
       {
