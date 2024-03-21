@@ -1,11 +1,11 @@
 [
   {
     "kernelSource": {
-      "name": "Xiaomi4",
-      "repo": "https://github.com/SonicBSV/android_kernel_xiaomi_markw-4.9",
-      "branch": "master",
-      "device": "markw",
-      "defconfig": "markw_defconfig"
+      "name": "Pixel3xl",
+      "repo": "https://github.com/LineageOS/android_kernel_google_msm-4.9",
+      "branch": "lineage-21",
+      "device": "smd845",
+      "defconfig": "sdm845_defconfig"
     },
     "toolchains": [
       {
