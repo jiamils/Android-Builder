@@ -13,14 +13,15 @@ jobs:
         with:
           node-version: 22
 
-      # 直接请求线上订阅，绕过本地source.txt
-      - name: SubBridge 转换订阅
-        env:
-          SUB_LINK: ${{ secrets.SUB_URL }}
+      # 读取本地sub.txt base64订阅，不再请求线上链接
+      - name: Run SubBridge Convert
         run: |
-          npx @0xsnx/subbridge build -i "${SUB_LINK}" -t ./template.json -o ./docs/singbox.json
+          npx @0xsnx/subbridge build \
+            -i ./sub.txt \
+            -t ./template.json \
+            -o ./docs/singbox.json
 
-      - name: 部署Pages
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
