@@ -48,7 +48,7 @@
     {
       "type": "urltest",
       "tag": "auto",
-      "outbounds": ["{$subbridge:nodes}"]
+      "outbounds": ["direct", "{$subbridge:nodes}"]
     },
     {
       "type": "direct",
