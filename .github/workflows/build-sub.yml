@@ -1,8 +1,6 @@
 name: Generate SingBox Config
 on:
-  workflow_dispatch:
-  schedule:
-    - cron: '0 */8 * * *'
+  workflow_dispatch
 
 jobs:
   build:
@@ -17,12 +15,9 @@ jobs:
           node-version: 22
 
       - name: Run SubBridge Convert
-        env:
-          SUB_LINK: ${{ secrets.SUB_URL }}
         run: |
-          ls -la
           npx @0xsnx/subbridge build \
-            -i "${SUB_LINK}" \
+            -i ./source.txt \
             -t ./template.json \
             -o ./docs/singbox.json
 
