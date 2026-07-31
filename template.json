@@ -25,11 +25,16 @@
         }
       }
     ],
-    "rules": [],
-    "final": "dns-direct",
-    "fakeip": {
-      "enabled": true
-    }
+    "rules": [
+      {
+        "query_type": ["A", "AAAA"],
+        "server": "dns-proxy",
+        "fakeip": {
+          "enabled": true
+        }
+      }
+    ],
+    "final": "dns-direct"
   },
   "inbounds": [
     {
