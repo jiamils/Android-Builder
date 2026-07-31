@@ -1,8 +1,8 @@
 name: Generate SingBox Config
 on:
-  workflow_dispatch: # 支持手动点击运行
+  workflow_dispatch:
   schedule:
-    - cron: '0 */8 * * *' # 每8小时自动更新（UTC时间）
+    - cron: '0 */8 * * *'
 
 jobs:
   build:
@@ -19,6 +19,11 @@ jobs:
       - name: Install SubBridge
         run: npm install -g @0xsnx/subbridge
 
+      # ==========新增这一段，把npm全局目录加入PATH==========
+      - name: Export npm global path
+        run: |
+          echo "PATH=$(npm config get prefix)/bin:$PATH" >> $GITHUB_ENV
+
       - name: Run SubBridge Convert
         env:
           SUB_LINK: ${{ secrets.SUB_URL }}
@@ -28,7 +33,6 @@ jobs:
             -t ./template.json \
             -o ./docs/singbox.json
 
-      # 部署到 GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
