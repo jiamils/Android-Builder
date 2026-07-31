@@ -6,23 +6,19 @@
     "servers": [
       {
         "tag": "dns-direct",
-        "address": {
-          "address": "223.5.5.5"
-        },
+        "type": "udp",
+        "server": "223.5.5.5",
         "detour": "direct"
       },
       {
         "tag": "dns-proxy",
-        "address": {
-          "address": "8.8.8.8"
-        },
+        "type": "udp",
+        "server": "8.8.8.8",
         "detour": "select"
       },
       {
         "tag": "dns-block",
-        "address": {
-          "address": "rcode://refused"
-        }
+        "type": "rcode"
       }
     ],
     "rules": [
