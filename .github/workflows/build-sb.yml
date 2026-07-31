@@ -1,0 +1,28 @@
+name: SubConverter Build SingBox
+on:
+  workflow_dispatch # 手动点击运行
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出仓库文件
+        uses: actions/checkout@v4
+
+      - name: 启动 subconverter Docker 容器
+        run: |
+          docker run -d --name subconv -p 25500:25500 tindy2013/subconverter:latest
+          sleep 8 # 等待容器初始化完成
+
+      - name: 拉取订阅并转换为 sing-box 配置
+        env:
+          SUB_LINK: ${{ secrets.SUB_URL }}
+        run: |
+          curl -s "http://127.0.0.1:25500/sub?target=singbox&url=${SUB_LINK}&config=https://raw.githubusercontent.com/${{ github.repository }}/main/sb-template.json" -o ./docs/singbox.json
+
+      - name: 部署到 GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          force_orphan: true
