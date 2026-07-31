@@ -13,11 +13,18 @@ jobs:
         with:
           node-version: 22
 
-      # 读取本地sub.txt base64订阅，不再请求线上链接
+      # 1. 工作流内在线拉订阅，写入临时文件（不会报base64格式错误）
+      - name: Download subscribe to temp file
+        env:
+          SUB_LINK: ${{ secrets.SUB_URL }}
+        run: |
+          curl -s "${SUB_LINK}" > temp-sub.txt
+
+      # 2. 读取临时文件转换
       - name: Run SubBridge Convert
         run: |
           npx @0xsnx/subbridge build \
-            -i ./sub.txt \
+            -i ./temp-sub.txt \
             -t ./template.json \
             -o ./docs/singbox.json
 
