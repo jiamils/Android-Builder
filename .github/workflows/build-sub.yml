@@ -16,19 +16,12 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install SubBridge
-        run: npm install -g @0xsnx/subbridge
-
-      # ==========新增这一段，把npm全局目录加入PATH==========
-      - name: Export npm global path
-        run: |
-          echo "PATH=$(npm config get prefix)/bin:$PATH" >> $GITHUB_ENV
-
       - name: Run SubBridge Convert
         env:
           SUB_LINK: ${{ secrets.SUB_URL }}
         run: |
-          subbridge build \
+          ls -la
+          npx @0xsnx/subbridge build \
             -i "${SUB_LINK}" \
             -t ./template.json \
             -o ./docs/singbox.json
