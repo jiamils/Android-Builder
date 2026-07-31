@@ -1,0 +1,65 @@
+{
+  "log": {
+    "level": "warn"
+  },
+  "dns": {
+    "servers": [
+      {
+        "tag": "dns-direct",
+        "address": {
+          "address": "223.5.5.5"
+        },
+        "detour": "direct"
+      },
+      {
+        "tag": "dns-proxy",
+        "address": {
+          "address": "8.8.8.8"
+        },
+        "detour": "select"
+      },
+      {
+        "tag": "dns-block",
+        "address": {
+          "address": "rcode://refused"
+        }
+      }
+    ],
+    "rules": [],
+    "final": "dns-direct",
+    "fakeip": {
+      "enabled": true
+    }
+  },
+  "inbounds": [
+    {
+      "type": "mixed",
+      "listen": "127.0.0.1",
+      "port": 9090
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "selector",
+      "tag": "select",
+      "outbounds": ["auto", "direct"]
+    },
+    {
+      "type": "urltest",
+      "tag": "auto",
+      "outbounds": ["{\"$subbridge\":\"nodes\"}"]
+    },
+    {
+      "type": "direct",
+      "tag": "direct"
+    },
+    {
+      "type": "block",
+      "tag": "block"
+    }
+  ],
+  "route": {
+    "rules": [],
+    "final": "select"
+  }
+}
