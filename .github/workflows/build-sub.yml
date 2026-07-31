@@ -1,7 +1,6 @@
 name: Generate SingBox Config
 on:
   workflow_dispatch
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,15 +13,16 @@ jobs:
         with:
           node-version: 22
 
-      - name: Run SubBridge Convert
+      # 直接请求线上订阅，绕过本地source.txt
+      - name: SubBridge 转换订阅
+        env:
+          SUB_LINK: ${{ secrets.SUB_URL }}
         run: |
-          npx @0xsnx/subbridge build \
-            -i ./source.txt \
-            -t ./template.json \
-            -o ./docs/singbox.json
+          npx @0xsnx/subbridge build -i "${SUB_LINK}" -t ./template.json -o ./docs/singbox.json
 
-      - name: Deploy to GitHub Pages
+      - name: 部署Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs
+          force_orphan: true
