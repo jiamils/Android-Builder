@@ -19,13 +19,7 @@ jobs:
           SUB_LINK: ${{ secrets.SUB_URL }}
         run: |
          curl -s "http://127.0.0.1:25500/sub?target=singbox&url=${SUB_LINK}&config=https://raw.githubusercontent.com/${{ github.repository }}/main/sb-template.json&append=false" -o ./docs/singbox.json
-         sudo apt update && sudo apt install -y jq
-
-         jq '
-         del(.dns.fakeip)
-         | del(.dns.servers[] | select(.tag == "dns_fakeip"))
-          | del(.dns.rules[] | select(.server == "dns_fakeip"))
-         './docs/singbox.json > ./docs/tmp.json && mv ./docs/tmp.json ./docs/singbox.json
+         
 
       - name: 部署到 GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
