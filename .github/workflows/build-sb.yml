@@ -19,8 +19,10 @@ jobs:
           SUB_LINK: ${{ secrets.SUB_URL }}
         run: |
           curl -s "http://127.0.0.1:25500/sub?target=singbox&url=${SUB_LINK}&config=https://raw.githubusercontent.com/${{ github.repository }}/main/sb-template.json&append=false" -o ./docs/singbox.json
-          sed -i '/"fakeip"/d' ./docs/singbox.json
-          sed -i '/fakeip/d' ./docs/singbox.json
+          sed -i 's/"fakeip":{[^}]*},//g' ./docs/singbox.json
+          sed -i 's/"fakeip":{[^}]*}//g' ./docs/singbox.json
+          sed -i 's/,"dns_fakeip"[^]]*//g' ./docs/singbox.json
+          sed -i 's/"dns_fakeip"[^,]*,\?//g' ./docs/singbox.json
 
       - name: 部署到 GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
